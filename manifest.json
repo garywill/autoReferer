@@ -1,0 +1,21 @@
+{
+    "name": "Auto Referer",
+    "description": "Control referer to protect privacy and not break web",
+    "manifest_version": 2,
+    "version": "0.6",
+    "homepage_url": "https://github.com/garywill/autoreferer",
+    "developer": {
+        "name": "Garywill",
+        "url": "https://github.com/garywill/autoreferer"
+    },
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "*://*/*"
+    ],
+    
+    "background": {
+        "scripts": ["background.js"]
+    }
+
+} 
