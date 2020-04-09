@@ -51,7 +51,7 @@ function removeUrlParts(s)
 {
     try{
         var arr = s.split("/");
-        var result = arr[0] + "//" + arr[2]
+        var result = arr[0] + "//" + arr[2] + "/";
         
         return result;
     }catch(e){
