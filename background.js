@@ -78,7 +78,7 @@ function setBadgeStatus(s)
 {   
     if (!enabled)
     {
-        browser.browserAction.setBadgeText({ text: "D" });
+        browser.browserAction.setBadgeText({ text: "Off" });
         browser.browserAction.setBadgeBackgroundColor({ color: "#dd0000" });
         browser.browserAction.setTitle({title: "Auto Referer (Disabled)"});
     }
