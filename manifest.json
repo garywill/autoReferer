@@ -2,8 +2,8 @@
     "name": "Auto Referer",
     "description": "Control referer to protect privacy and not break web",
     "manifest_version": 2,
-    "version": "0.6.2",
-    "homepage_url": "https://github.com/garywill/autoreferer",
+    "version": "0.6.400",
+    "homepage_url": "https://garywill.github.io",
     "developer": {
         "name": "Garywill",
         "url": "https://github.com/garywill/autoreferer"
@@ -11,21 +11,17 @@
     "permissions": [
         "webRequest",
         "webRequestBlocking",
-        "*://*/*"
+        "*://*/*",
+        "menus"
     ],
-    "applications": {
-        "gecko": {
-            "strict_min_version": "63.0"
-        }
-    },
     "icons": {
-        "96": "icon.svg"
+        "128": "icon.svg"
     },
     "background": {
-        "scripts": ["background.js"]
+        "page": "background.html"
     },
     "browser_action": {
-        "default_icon": "icon.svg",
+        "default_icon": "icon_gray.svg",
         "default_title": "Auto Referer"
     }
 
