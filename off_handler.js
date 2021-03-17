@@ -1,3 +1,12 @@
+var global_enabled = false; 
+
+var list_w_disable = []; // window off list
+var list_h_disable = []; // tab and sub tabs off list
+var list_t_disable = []; // tab off list
+
+
+var listeners = [];
+
 /* blue icon: normal
 * gray icon or red badge "off": globally off
 * red badge "woff" : off on this window 
@@ -23,10 +32,26 @@ function isGlobalEnabled(){
     return global_enabled;
 }
 function setGlobalEnable(){
+    if ( global_enabled == true ) return;
+    
+    listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
+    browser.webRequest.onBeforeSendHeaders.addListener(
+        onBeforeSendHeaders,
+        {urls: ["<all_urls>"]},
+        ["blocking", "requestHeaders"]
+    ); 
+    
     global_enabled = true;
     updateGlobalIcon();
 }
 function unsetGlobalEnable(){
+    while( listeners[0] !== undefined )
+    {
+        L = listeners[0];
+        L[0].removeListener(L[1]);
+        listeners.shift();
+    }
+    
     global_enabled = false;
     updateGlobalIcon();
 }
@@ -150,3 +175,60 @@ async function update_tabBadge(tabid){
 browser.tabs.onUpdated.addListener( (tabid) => {
     update_tabBadge(tabid);
 });
+
+browser.tabs.onRemoved.addListener( (tabid, removeInfo) => {
+    const wid = removeInfo.windowId;
+    normalizeTab(tabid);
+});
+browser.windows.onRemoved.addListener((wid) => {
+    unsetWindowDisabled(wid);
+});
+browser.browserAction.onClicked.addListener((tab) => {
+    const tabid = tab.id;
+    const wid = tab.windowId;
+    
+    if ( ! isTabIn_list_h(tabid) && ! isTabIn_list_t(tabid) )
+    {
+        setTab_t(tabid);
+    }else if ( isTabIn_list_t(tabid) ) 
+    {
+        setTab_h(tabid);
+    }else if ( isTabIn_list_h(tabid) )
+    {
+        normalizeTab(tabid);
+    }
+    
+});
+browser.tabs.onCreated.addListener( (tab) => {
+    if ( isTabIn_list_h(tab.openerTabId) ) {
+        setTab_h(tab.id);
+    }
+});
+
+async function is_off(details, tabid, tab, wid, changeInfo){
+    if ( ! global_enabled ) return true;
+    
+    if (typeof(details) == "object" )
+    {
+        tabid = details.tabId;
+    }
+    
+    if (typeof(tab) == "object")
+    {
+        tabid = tab.id;
+        wid = tab.windowId;
+    }
+    
+    if ( tabid < 0 ) return true;
+    if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) return true;
+    
+    try{ 
+        if ( wid === undefined ) wid = (await browser.tabs.get(tabid)).windowId;
+    } catch(err){ 
+        if ( ! err.message.startsWith("Invalid tab ID:") )   console.error(err);
+        return true;
+    }
+    
+    if( isWindowDisabled( wid ) ) return true;
+
+}

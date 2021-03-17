@@ -2,7 +2,7 @@
     "name": "Auto Referer",
     "description": "Control referer to protect privacy and not break web",
     "manifest_version": 2,
-    "version": "0.6.400",
+    "version": "0.6.410",
     "homepage_url": "https://garywill.github.io",
     "developer": {
         "name": "Garywill",
