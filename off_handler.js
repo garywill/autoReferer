@@ -222,12 +222,13 @@ async function is_off(details, tabid, tab, wid, changeInfo){
     if ( tabid < 0 ) return true;
     if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) return true;
     
-    try{ 
-        if ( wid === undefined ) wid = (await browser.tabs.get(tabid)).windowId;
-    } catch(err){ 
-        if ( ! err.message.startsWith("Invalid tab ID:") )   console.error(err);
-        return true;
-    }
+    if ( wid === undefined )
+        try{ 
+            wid = (await browser.tabs.get(tabid)).windowId;
+        } catch(err){ 
+            if ( ! err.message.startsWith("Invalid tab ID:") )   console.error(err);
+            return true;
+        }
     
     if( isWindowDisabled( wid ) ) return true;
 

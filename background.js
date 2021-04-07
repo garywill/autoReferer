@@ -11,7 +11,7 @@ async function onBeforeSendHeaders(details)
     
     const targetURL = details.url;
     const resourceType = details.type;
-    //const documentUrl = details.documentUrl;
+    const documentUrl = details.documentUrl;
     //const originUrl = details.originUrl;
     
     for (var i=0; i<details.requestHeaders.length; i++)
@@ -22,7 +22,7 @@ async function onBeforeSendHeaders(details)
         )
         {
             var newReferer = null;
-            newReferer = getNewReferer(targetURL, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame");
+            newReferer = getNewReferer(targetURL, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame", documentUrl);
             
             cur_header.value = newReferer;
             if (!newReferer)
@@ -39,11 +39,21 @@ async function onBeforeSendHeaders(details)
 
 //===================================================
 // referer policy
-function getNewReferer(targetURL, oldReferer="", isTop, isSubframeTop){ 
+function getNewReferer(targetURL, oldReferer="", isTop, isSubframeTop, documentUrl){ 
     var newReferer = "";
     
-    if (isTop || isSubframeTop)
-        if ( getUrlHost(targetURL) === getUrlHost(oldReferer) )
+    const targetHost = getUrlHost(targetURL);
+    const oldRefererHost = getUrlHost(oldReferer);
+    
+    if (isTop)
+        if ( targetHost === oldRefererHost )
+            newReferer = removeUrlParts(oldReferer);
+        else 
+            newReferer = "";
+    else if (isSubframeTop)
+        if ( targetHost === oldRefererHost ||
+            getUrlHost(documentUrl) === oldRefererHost
+        )
             newReferer = removeUrlParts(oldReferer);
         else 
             newReferer = "";
@@ -62,8 +72,8 @@ function getNewReferer(targetURL, oldReferer="", isTop, isSubframeTop){
     )
         newReferer = "";
     
-    // when url is other strange scheme that we don't know
-    if ( !getUrlHost(targetURL) || !getUrlHost(oldReferer) ) 
+    // when url is other strange format that we don't know
+    if ( !targetHost || !oldRefererHost )
         newReferer = "";
     
     // make sure referer only starts with http or https
