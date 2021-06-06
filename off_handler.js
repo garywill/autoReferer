@@ -7,6 +7,18 @@ var list_t_disable = []; // tab off list
 
 var listeners = [];
 
+browser.runtime.onMessage.addListener(async (message) => {
+    if (message.action === 're-globalEnable-if-is-enabled') 
+    {
+        //console.log("received message re-globalEnable-if-is-enabled");
+        if ( isGlobalEnabled() )
+        {
+            unsetGlobalEnable();
+            setGlobalEnable();
+        }
+    }
+});
+
 /* blue icon: normal
 * gray icon or red badge "off": globally off
 * red badge "woff" : off on this window 
@@ -31,9 +43,13 @@ function updateGlobalIcon(){
 function isGlobalEnabled(){
     return global_enabled;
 }
-function setGlobalEnable(){
-    if ( global_enabled == true ) return;
+async function setGlobalEnable(){
+    if ( global_enabled == true ) 
+        return;
     
+    global_enabled = true;
+    
+
     listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
     browser.webRequest.onBeforeSendHeaders.addListener(
         onBeforeSendHeaders,
@@ -41,7 +57,17 @@ function setGlobalEnable(){
         ["blocking", "requestHeaders"]
     ); 
     
-    global_enabled = true;
+    if ( ( await browser.storage.local.get() )['workaround'] === true )
+    {
+        listeners.push([browser.webRequest.onBeforeRequest, onBeforeRequest_main]);
+        browser.webRequest.onBeforeRequest.addListener(
+            onBeforeRequest_main,
+            {urls: ["<all_urls>"], types: ["main_frame"]},
+            ["blocking", "requestBody"]
+        ); 
+    }
+    
+    
     updateGlobalIcon();
 }
 function unsetGlobalEnable(){

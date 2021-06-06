@@ -4,6 +4,44 @@ const default_title = addon_name;
 setGlobalEnable();
 
 //----------------------------------------------------------
+async function onBeforeRequest_main(details)
+{
+    if (await is_off(details=details)) return;
+    
+    const method = details.method;
+    const targetURL = details.url;
+    //const resourceType = details.type;
+    //const documentUrl = details.documentUrl;
+    const originUrl = details.originUrl;
+    const tabid = details.tabId;
+    
+    if (method != "GET") return;
+    if (!originUrl) return;
+    for ( unhandled of ["moz-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
+        if ( targetURL.toLowerCase().startsWith(unhandled) || originUrl.toLowerCase().startsWith(unhandled) )
+            return;
+    
+    if (
+    ( getUrlHost(targetURL) !== getUrlHost(originUrl) )
+    ||
+    ( 
+        ( originUrl.toLowerCase().startsWith("https://") ||
+        originUrl.toLowerCase().startsWith("wss://") )
+        && 
+        ( targetURL.toLowerCase().startsWith("http://") ||
+        targetURL.toLowerCase().startsWith("ws://") )
+    )
+    )
+    {
+        browser.tabs.executeScript(
+            tabid,
+            {
+                runAt: "document_start",
+                code: `window.location.href="${targetURL}";`
+            }
+        );
+    }
+}
 
 async function onBeforeSendHeaders(details)
 {
