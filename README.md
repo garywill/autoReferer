@@ -1,6 +1,6 @@
 # Auto Referer
 
-Firefox addon. Control referer to protect privacy and not break web.
+Control HTTP referer to protect privacy and not break web. Browser addon. 
 
 **Notice**: Due to browser bug on javascript `document.referrer` on Firefox 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)), using a regular referer controlling addon you can get 70% of expected protection until Mozilla fixes that bug. 
 
@@ -22,7 +22,7 @@ Referer policy:
 
 5. No referer when downgrade from HTTPS/WSS to HTTP/WS
 
-I believe that can protect privacy enough and won't break web.
+We believe that can protect privacy enough and won't break web.
 
 If user find a web broken, user can temporary set this addon disabled via toolbar button for:
 
@@ -31,4 +31,4 @@ If user find a web broken, user can temporary set this addon disabled via toolba
 - this one window
 - globally
 
-there's toolbar button badge indicating disabling status.
+there's showy toolbar button badge indicating disabling status.

@@ -2,7 +2,7 @@ const addon_name = "Auto Referer";
 const default_title = addon_name;
 
 setGlobalEnable();
-
+    // TODO .onion .i2p
 //----------------------------------------------------------
 async function onBeforeRequest_main(details)
 {

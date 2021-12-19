@@ -6,7 +6,7 @@
     "homepage_url": "https://garywill.github.io",
     "developer": {
         "name": "Garywill",
-        "url": "https://github.com/garywill/autoreferer"
+        "url": "https://github.com/garywill/autoReferer"
     },
     "permissions": [
         "webRequest",
@@ -17,13 +17,13 @@
         "storage"
     ],
     "icons": {
-        "128": "icon.svg"
+        "128": "icon.png"
     },
     "background": {
         "page": "background.html"
     },
     "browser_action": {
-        "default_icon": "icon_gray.svg",
+        "default_icon": "icon_gray.png",
         "default_title": "Auto Referer"
     },
     "options_ui": {
