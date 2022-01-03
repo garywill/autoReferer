@@ -1,10 +1,13 @@
 # Auto Referer
 
-Control HTTP referer to protect privacy and not break web. Browser addon. 
+Control HTTP referer to protect privacy and not break web.
 
-**Notice**: Due to browser bug on javascript `document.referrer` on Firefox 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)), using a regular referer controlling addon you can get 70% of expected protection until Mozilla fixes that bug. 
+- [Firefox Addon](https://addons.mozilla.org/firefox/addon/auto-referer/)
+- [Chrome Addon](https://chrome.google.com/webstore/detail/auto-referer/dafnjeokmkpjdlfgllccdenmikeglgab)
 
-So, **we've implemented a workaround to improve protection to 85%. Please enable workaround in addon settings.**
+**Notice**: Due to browser bug on javascript `document.referrer` on Firefox 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)) (also on Chrome), using a regular referer controlling addon you can get 70% of expected protection until they fix that bug. 
+
+So, **we've implemented a workaround to improve protection to 85%. Please enable workaround in addon settings** (Firefox only currently).
 
 Referer policy:
 
@@ -28,7 +31,7 @@ If user find a web broken, user can temporary set this addon disabled via toolba
 
 - this one tab
 - this one tab and new tabs opened by this tab
-- this one window
+- this one window (Firefox only)
 - globally
 
 there's showy toolbar button badge indicating disabling status.

@@ -17,7 +17,7 @@ async function onBeforeRequest_main(details)
     
     if (method != "GET") return;
     if (!originUrl) return;
-    for ( unhandled of ["moz-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
+    for ( unhandled of ["moz-extension:", "chrome-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
         if ( targetURL.toLowerCase().startsWith(unhandled) || originUrl.toLowerCase().startsWith(unhandled) )
             return;
     
@@ -44,6 +44,10 @@ async function onBeforeRequest_main(details)
 }
 
 async function onBeforeSendHeaders(details)
+/*
+NOTICE Chrome doesn't allow async function here
+    Change it to sync function for Chrome
+*/
 {
     if (await is_off(details=details)) return;
     
