@@ -19,6 +19,12 @@ browser.runtime.onMessage.addListener(async (message) => {
     }
 });
 
+var NOTITLE;
+if (isFirefox)
+    NOTITLE=null
+else if (isChrome)
+    NOTITLE='';
+
 /* blue icon: normal
 * gray icon or red badge "off": globally off
 * red badge "woff" : off on this window 
@@ -36,7 +42,7 @@ function updateGlobalIcon(){
     else{  // globally enabled
         browser.browserAction.setBadgeText({ text: null });
         browser.browserAction.setBadgeBackgroundColor({ color: "#00BF00" });
-        browser.browserAction.setTitle({title: ''});
+        browser.browserAction.setTitle({title: NOTITLE});
         browser.browserAction.setIcon( { path: "icon.png" } );
     }
 }
@@ -123,7 +129,7 @@ function update_windowBadge(wid){
         browser.browserAction.setBadgeText({ text: "woff" , windowId: wid});
         browser.browserAction.setBadgeBackgroundColor({ color: "#ff6666" , windowId: wid}); // red
     }else{
-        browser.browserAction.setTitle({title: '', windowId: wid });
+        browser.browserAction.setTitle({title: NOTITLE, windowId: wid });
         browser.browserAction.setBadgeText({ text: null , windowId: wid});
         //browser.browserAction.setBadgeBackgroundColor({ color: "" , windowId: wid});
     }
@@ -192,7 +198,7 @@ async function update_tabBadge(tabid){
             //await browser.browserAction.setBadgeBackgroundColor({ color: "#ffea00" , tabId: tabid}); // orange
             await browser.browserAction.setBadgeBackgroundColor({ color: "#ff6666" , tabId: tabid}); // red
         }else{
-            await browser.browserAction.setTitle({title: '', tabId: tabid }); // TODO on firefox only, title: null
+            await browser.browserAction.setTitle({title: NOTITLE, tabId: tabid });
             //await browser.browserAction.setBadgeTextColor({color: "", tabId: tabid });
             await browser.browserAction.setBadgeText({ text: null , tabId: tabid});
             //await browser.browserAction.setBadgeBackgroundColor({ color: "" , tabId: tabid});
