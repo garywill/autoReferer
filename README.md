@@ -27,11 +27,15 @@ Referer policy:
 
 We believe that can protect privacy enough and won't break web.
 
+## Fallback operation
+
 If user find a web broken, user can temporary set this addon disabled via toolbar button for:
 
 - this one tab
 - this one tab and new tabs opened by this tab
 - this one window (Firefox only)
 - globally
+
+(above can be set as keyboard shortcuts)
 
 there's showy toolbar button badge indicating disabling status.
