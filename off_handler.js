@@ -34,9 +34,9 @@ function updateGlobalIcon(){
         browser.browserAction.setIcon( { path: "icon_gray.png" } );
     }
     else{  // globally enabled
-        browser.browserAction.setBadgeText({ text: "" });
+        browser.browserAction.setBadgeText({ text: null });
         browser.browserAction.setBadgeBackgroundColor({ color: "#00BF00" });
-        browser.browserAction.setTitle({title: ""});
+        browser.browserAction.setTitle({title: ''});
         browser.browserAction.setIcon( { path: "icon.png" } );
     }
 }
@@ -44,19 +44,20 @@ function isGlobalEnabled(){
     return global_enabled;
 }
 async function setGlobalEnable(){
+
     if ( global_enabled == true ) 
         return;
     
-    global_enabled = true;
-    
-
     listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
     browser.webRequest.onBeforeSendHeaders.addListener(
         onBeforeSendHeaders,
         {urls: ["<all_urls>"]},
-        ["blocking", "requestHeaders"] // need "extraHeaders" for Chrome
+        ["blocking", "requestHeaders"] // NOTICE need "extraHeaders" for Chrome
     ); 
     
+    /* NOTICE 
+     * delete for Chrome
+     */
     if ( ( await browser.storage.local.get() )['workaround'] === true )
     {
         listeners.push([browser.webRequest.onBeforeRequest, onBeforeRequest_main]);
@@ -67,7 +68,7 @@ async function setGlobalEnable(){
         ); 
     }
     
-    
+    global_enabled = true;
     updateGlobalIcon();
 }
 function unsetGlobalEnable(){
@@ -95,14 +96,16 @@ function isWindowDisabled(wid){
     return false;
 }
 function setWindowDisabled(wid){
-    if (isWindowDisabled(wid)) return;
+    if (isWindowDisabled(wid)) 
+        return;
     list_w_disable.push(wid);
-    update_windowBadge(wid)
+    update_windowBadge(wid);
 }
 function unsetWindowDisabled(wid){
-    if ( ! isWindowDisabled(wid)) return;
+    if ( ! isWindowDisabled(wid)) 
+        return;
     list_w_disable.splice( list_w_disable.indexOf(wid) ,1);
-    update_windowBadge(wid)
+    update_windowBadge(wid);
 }
 function toggle_window_disabled(wid)
 {
@@ -120,8 +123,8 @@ function update_windowBadge(wid){
         browser.browserAction.setBadgeText({ text: "woff" , windowId: wid});
         browser.browserAction.setBadgeBackgroundColor({ color: "#ff6666" , windowId: wid}); // red
     }else{
-        browser.browserAction.setTitle({title: "", windowId: wid });
-        browser.browserAction.setBadgeText({ text: "" , windowId: wid});
+        browser.browserAction.setTitle({title: '', windowId: wid });
+        browser.browserAction.setBadgeText({ text: null , windowId: wid});
         //browser.browserAction.setBadgeBackgroundColor({ color: "" , windowId: wid});
     }
 }
@@ -189,9 +192,9 @@ async function update_tabBadge(tabid){
             //await browser.browserAction.setBadgeBackgroundColor({ color: "#ffea00" , tabId: tabid}); // orange
             await browser.browserAction.setBadgeBackgroundColor({ color: "#ff6666" , tabId: tabid}); // red
         }else{
-            await browser.browserAction.setTitle({title: "", tabId: tabid });
+            await browser.browserAction.setTitle({title: '', tabId: tabid });
             //await browser.browserAction.setBadgeTextColor({color: "", tabId: tabid });
-            await browser.browserAction.setBadgeText({ text: "" , tabId: tabid});
+            await browser.browserAction.setBadgeText({ text: null , tabId: tabid});
             //await browser.browserAction.setBadgeBackgroundColor({ color: "" , tabId: tabid});
         }
     } catch(err){ 
@@ -232,6 +235,10 @@ browser.tabs.onCreated.addListener( (tab) => {
 });
 
 async function is_off(details, tabid, tab, wid, changeInfo){
+/*
+NOTICE Chrome doesn't allow async function here
+    Change it to sync function for Chrome
+*/
     if ( ! global_enabled ) return true;
     
     if (typeof(details) == "object" )
@@ -248,6 +255,10 @@ async function is_off(details, tabid, tab, wid, changeInfo){
     if ( tabid < 0 ) return true;
     if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) return true;
     
+    /*
+    NOTICE Chrome doesn't allow async function here
+        Change it to sync function for Chrome
+    */
     if ( wid === undefined )
         try{ 
             wid = (await browser.tabs.get(tabid)).windowId;
@@ -259,3 +270,27 @@ async function is_off(details, tabid, tab, wid, changeInfo){
     if( isWindowDisabled( wid ) ) return true;
 
 }
+
+
+browser.commands.onCommand.addListener(async function (command) {
+    switch (command) {
+        case "toggle_global":
+            toggle_global_enabled();
+        break;
+        case "toggle_t":
+        case "toggle_h":
+        case "toggle_window":
+            const cur_tabInfo = (await browser.tabs.query({currentWindow: true, active: true}) ) [0];
+            const tabid = cur_tabInfo.id;
+            const wid = cur_tabInfo.windowId;
+            
+            if (command == "toggle_t") {
+                toggleTab_t(tabid);
+            }else if (command == "toggle_h") {
+                toggleTab_h(tabid);
+            }else if (command == "toggle_window") {
+                toggle_window_disabled(wid);
+            }
+        break;
+    }
+});

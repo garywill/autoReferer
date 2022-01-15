@@ -4,9 +4,15 @@ const default_title = addon_name;
 setGlobalEnable();
     // TODO .onion .i2p
 //----------------------------------------------------------
+
+/*
+NOTICE 
+    delete for Chrome
+*/
 async function onBeforeRequest_main(details)
 {
-    if (await is_off(details=details)) return;
+    if (await is_off(details=details)) 
+        return;
     
     const method = details.method;
     const targetURL = details.url;
@@ -49,7 +55,8 @@ NOTICE Chrome doesn't allow async function here
     Change it to sync function for Chrome
 */
 {
-    if (await is_off(details=details)) return;
+    if (await is_off(details=details)) 
+        return;
     
     const targetURL = details.url;
     const resourceType = details.type;
