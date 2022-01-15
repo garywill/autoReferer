@@ -154,5 +154,5 @@ function getUrlHost(s) // 'http://example.com:8888/a/b/c' --> 'example.com:8888'
         console.error(err);
         return s;
     }
-}
+
 }

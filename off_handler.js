@@ -192,7 +192,7 @@ async function update_tabBadge(tabid){
             //await browser.browserAction.setBadgeBackgroundColor({ color: "#ffea00" , tabId: tabid}); // orange
             await browser.browserAction.setBadgeBackgroundColor({ color: "#ff6666" , tabId: tabid}); // red
         }else{
-            await browser.browserAction.setTitle({title: '', tabId: tabid });
+            await browser.browserAction.setTitle({title: '', tabId: tabid }); // TODO on firefox only, title: null
             //await browser.browserAction.setBadgeTextColor({color: "", tabId: tabid });
             await browser.browserAction.setBadgeText({ text: null , tabId: tabid});
             //await browser.browserAction.setBadgeBackgroundColor({ color: "" , tabId: tabid});
