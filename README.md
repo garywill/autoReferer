@@ -27,6 +27,14 @@ Referer policy:
 
 We believe that can protect privacy enough and won't break web.
 
+## `document.referrer` bug workaround
+
+This addon doesn't use content script. Content script hiding `document.referrer` is not 100% reliable.
+
+**Instead, we use this workaround to kill `document.referrer`**: (Firefox only)
+
+Cancel all cross-domain navigating requests and make freshnew ones, like directly hit (currently only implemented for GET method and main frame, other methods and sub-frames remain as is)
+
 ## Fallback operation
 
 If user find a web broken, user can temporary set this addon disabled via toolbar button for:
