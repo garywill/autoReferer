@@ -38,6 +38,10 @@ async function onBeforeRequest_main(details)
         if ( targetUrl.startsWith(unhandled) || originUrl.startsWith(unhandled) )
             return;
     
+    for ( str of whitelist )
+        if (originHost.endsWith(str) && targetHost.endsWith(str) )
+            return;
+    
     if (
     ( targetHost !== originHost )
     ||
@@ -70,9 +74,21 @@ NOTICE Chrome doesn't allow async function here
         return;
     
     const resourceType = details.type;
+    
     const targetUrl = details.url.toLowerCase() || details.url ;
+    const targetHost = getUrlHost(targetUrl) ;
+    
     const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+//     const documentHost = getUrlHost(documentUrl);
+    
     const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+    const originHost = getUrlHost(originUrl);
+    
+    if (resourceType == "main_frame")
+        for ( str of whitelist )
+            if (originHost.endsWith(str) && targetHost.endsWith(str) )
+                return;
+    
     
     for (var i=0; i<details.requestHeaders.length; i++)
     {
