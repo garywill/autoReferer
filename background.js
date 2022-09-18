@@ -14,12 +14,12 @@ async function onBeforeRequest_main(details)
     if (await is_off(details)) 
         return;
     
-    const method = details.method;
-    const targetURL = details.url;
     //const resourceType = details.type;
-    //const documentUrl = details.documentUrl;
-    const originUrl = details.originUrl;
     const tabid = details.tabId;
+    const method = details.method;
+    const targetUrl = details.url.toLowerCase() || details.url ;
+//     const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+    const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
     
     if (method != "GET")
         return;
@@ -28,18 +28,18 @@ async function onBeforeRequest_main(details)
         return;
     
     for ( unhandled of ["moz-extension:", "chrome-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
-        if ( targetURL.toLowerCase().startsWith(unhandled) || originUrl.toLowerCase().startsWith(unhandled) )
+        if ( targetUrl.startsWith(unhandled) || originUrl.startsWith(unhandled) )
             return;
     
     if (
     ( getUrlHost(targetURL) !== getUrlHost(originUrl) )
     ||
     ( 
-        ( originUrl.toLowerCase().startsWith("https://") ||
-        originUrl.toLowerCase().startsWith("wss://") )
+        ( originUrl.startsWith("https://") ||
+        originUrl.startsWith("wss://") )
         && 
-        ( targetURL.toLowerCase().startsWith("http://") ||
-        targetURL.toLowerCase().startsWith("ws://") )
+        ( targetUrl.startsWith("http://") ||
+        targetUrl.startsWith("ws://") )
     )
     )
     {
@@ -47,7 +47,7 @@ async function onBeforeRequest_main(details)
             tabid,
             {
                 runAt: "document_start",
-                code: `window.location.href="${targetURL}";`
+                code: `window.location.href="${targetUrl}";`
             }
         );
     }
@@ -62,10 +62,10 @@ NOTICE Chrome doesn't allow async function here
     if (await is_off(details)) 
         return;
     
-    const targetURL = details.url;
     const resourceType = details.type;
-    const documentUrl = details.documentUrl;
-    //const originUrl = details.originUrl;
+    const targetUrl = details.url.toLowerCase() || details.url ;
+    const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+    const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
     
     for (var i=0; i<details.requestHeaders.length; i++)
     {
@@ -75,7 +75,7 @@ NOTICE Chrome doesn't allow async function here
         )
         {
             var newReferer = null;
-            newReferer = getNewReferer(targetURL, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame", documentUrl);
+            newReferer = getNewReferer(targetUrl, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame", documentUrl);
             
             cur_header.value = newReferer;
             if (!newReferer)
@@ -92,10 +92,10 @@ NOTICE Chrome doesn't allow async function here
 
 //===================================================
 // referer policy
-function getNewReferer(targetURL, oldReferer="", isTop, isSubframeTop, documentUrl){ 
+function getNewReferer(targetUrl, oldReferer="", isTop, isSubframeTop, documentUrl){ 
     var newReferer = "";
     
-    const targetHost = getUrlHost(targetURL);
+    const targetHost = getUrlHost(targetUrl);
     const oldRefererHost = getUrlHost(oldReferer);
     
     if (isTop)
@@ -120,8 +120,8 @@ function getNewReferer(targetURL, oldReferer="", isTop, isSubframeTop, documentU
         ( oldReferer.toLowerCase().startsWith("https://") ||
         oldReferer.toLowerCase().startsWith("wss://") )
         && 
-        ( targetURL.toLowerCase().startsWith("http://") ||
-        targetURL.toLowerCase().startsWith("ws://") )
+        ( targetUrl.startsWith("http://") ||
+        targetUrl.startsWith("ws://") )
     )
         newReferer = "";
     
