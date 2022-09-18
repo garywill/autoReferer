@@ -11,7 +11,7 @@ NOTICE
 */
 async function onBeforeRequest_main(details)
 {
-    if (await is_off(details=details)) 
+    if (await is_off(details)) 
         return;
     
     const method = details.method;
@@ -55,7 +55,7 @@ NOTICE Chrome doesn't allow async function here
     Change it to sync function for Chrome
 */
 {
-    if (await is_off(details=details)) 
+    if (await is_off(details)) 
         return;
     
     const targetURL = details.url;
