@@ -98,7 +98,9 @@ function toggle_global_enabled()
 }
 //------------------------------------------
 function isWindowDisabled(wid){
-    if (list_w_disable.includes(wid)) return true;
+    if (list_w_disable.includes(wid)) 
+        return true;
+    
     return false;
 }
 function setWindowDisabled(wid){
@@ -136,7 +138,9 @@ function update_windowBadge(wid){
 }
 //---------------------------------------------------
 function isTabIn_list_t(tabid){
-    if ( list_t_disable.includes(tabid) ) return true;
+    if ( list_t_disable.includes(tabid) ) 
+        return true;
+    
     return false;
 }
 function isTabIn_list_h(tabid){
@@ -157,13 +161,15 @@ function unsetTab_h(tabid){
 }
 function setTab_t(tabid) {
     unsetTab_h(tabid);
-    if ( isTabIn_list_t(tabid) ) return;
+    if ( isTabIn_list_t(tabid) ) 
+        return;
     list_t_disable.push(tabid);
     update_tabBadge(tabid);
 }
 function setTab_h(tabid) {
     unsetTab_t(tabid);
-    if (isTabIn_list_h(tabid) ) return;
+    if (isTabIn_list_h(tabid) )
+        return;
     list_h_disable.push(tabid);
     update_tabBadge(tabid);
 }
@@ -204,7 +210,8 @@ async function update_tabBadge(tabid){
             //await browser.browserAction.setBadgeBackgroundColor({ color: "" , tabId: tabid});
         }
     } catch(err){ 
-        if ( ! err.message.startsWith("Invalid tab ID:") ) console.error(err);
+        if ( ! err.message.startsWith("Invalid tab ID:") )
+            console.error(err);
     }
 }
 browser.tabs.onUpdated.addListener( (tabid) => {
@@ -245,7 +252,8 @@ async function is_off(details, tabid, tab, wid, changeInfo){
 NOTICE Chrome doesn't allow async function here
     Change it to sync function for Chrome
 */
-    if ( ! global_enabled ) return true;
+    if ( ! global_enabled ) 
+        return true;
     
     if (typeof(details) == "object" )
     {
@@ -258,8 +266,10 @@ NOTICE Chrome doesn't allow async function here
         wid = tab.windowId;
     }
     
-    if ( tabid < 0 ) return true;
-    if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) return true;
+    if ( tabid < 0 ) 
+        return true;
+    if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) 
+        return true;
     
     /*
     NOTICE Chrome doesn't allow async function here
@@ -269,11 +279,13 @@ NOTICE Chrome doesn't allow async function here
         try{ 
             wid = (await browser.tabs.get(tabid)).windowId;
         } catch(err){ 
-            if ( ! err.message.startsWith("Invalid tab ID:") )   console.error(err);
+            if ( ! err.message.startsWith("Invalid tab ID:") )   
+                console.error(err);
             return true;
         }
     
-    if( isWindowDisabled( wid ) ) return true;
+    if( isWindowDisabled( wid ) ) 
+        return true;
 
 }
 

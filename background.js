@@ -21,8 +21,12 @@ async function onBeforeRequest_main(details)
     const originUrl = details.originUrl;
     const tabid = details.tabId;
     
-    if (method != "GET") return;
-    if (!originUrl) return;
+    if (method != "GET")
+        return;
+    
+    if (!originUrl) 
+        return;
+    
     for ( unhandled of ["moz-extension:", "chrome-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
         if ( targetURL.toLowerCase().startsWith(unhandled) || originUrl.toLowerCase().startsWith(unhandled) )
             return;
