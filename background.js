@@ -17,9 +17,16 @@ async function onBeforeRequest_main(details)
     //const resourceType = details.type;
     const tabid = details.tabId;
     const method = details.method;
+
     const targetUrl = details.url.toLowerCase() || details.url ;
+    const targetHost = getUrlHost(targetUrl) ;
+    
 //     const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+//     const documentHost = getUrlHost(documentUrl);
+    
     const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+    const originHost = getUrlHost(originUrl);
+    
     
     if (method != "GET")
         return;
@@ -32,7 +39,7 @@ async function onBeforeRequest_main(details)
             return;
     
     if (
-    ( getUrlHost(targetURL) !== getUrlHost(originUrl) )
+    ( targetHost !== originHost )
     ||
     ( 
         ( originUrl.startsWith("https://") ||
