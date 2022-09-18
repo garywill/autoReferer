@@ -2,7 +2,7 @@
     "name": "Auto Referer",
     "description": "Control referer to protect privacy and not break web",
     "manifest_version": 2,
-    "version": "0.8.1",
+    "version": "0.8.3",
     "homepage_url": "https://garywill.github.io",
     "developer": {
         "name": "Garywill",
@@ -45,5 +45,10 @@
     },
     "options_ui": {
         "page": "options.html"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{f6a3df9c-c297-46a1-bb84-d9cb00b314f0}"
+        }
     }
 } 

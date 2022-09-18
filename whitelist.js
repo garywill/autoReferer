@@ -4,4 +4,6 @@ var whitelist = [
     ".tmall.com", 
     
     ".cnki.net", 
+    
+    "gitlab.com", 
 ];
