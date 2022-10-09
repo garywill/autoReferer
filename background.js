@@ -23,12 +23,12 @@ async function onBeforeRequest_main(details)
     const tabid = details.tabId;
     const method = details.method;
 
-    var targetUrl = null;
-    var targetHost = null;
-//     var documentUrl = null;
-//     var documentHost = null;
-    var originUrl = null
-    var originHost = null
+    var targetUrl = "";
+    var targetHost = "";
+//     var documentUrl = "";
+//     var documentHost = "";
+    var originUrl = ""
+    var originHost = ""
     
     if (details.url) {
         targetUrl = details.url.toLowerCase() || details.url ;
@@ -118,12 +118,12 @@ NOTICE Chrome doesn't allow async function here
     
     const resourceType = details.type;
     
-    var targetUrl = null;
-    var targetHost = null;
-    var documentUrl = null;
-    var documentHost = null;
-    var originUrl = null
-    var originHost = null
+    var targetUrl = "";
+    var targetHost = "";
+    var documentUrl = "";
+    var documentHost = "";
+    var originUrl = ""
+    var originHost = ""
     
     if (details.url) {
         targetUrl = details.url.toLowerCase() || details.url ;
