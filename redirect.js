@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     
     document.getElementById("a_targetUrl").href = targetUrl;
     document.getElementById("span_targetUrl").textContent = targetUrl;
+    
+    document.title = `${ (new URL(targetUrl) ) .host} (${document.title})`;
+    
     document.location.replace ( targetUrl );
     
     

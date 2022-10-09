@@ -2,10 +2,10 @@
 <html lang="">
   <head>
     <meta charset="utf-8">
-    <title>Auto Referer workaround redirecting </title>
+    <title>Auto Referer redirecting</title>
       <script type="text/javascript" src="redirect.js"></script>
       <style>
-        #hint {
+        .hint {
          color: #a6a6a6;
         }
         #a_targetUrl {
@@ -14,7 +14,10 @@
       </style>
   </head>
   <body>
-    <span id="hint">Auto Referer workaround redirecting to </span>
+    <span class="hint">Auto Referer protection. Redirecting to </span>
     <a id="a_targetUrl"><span id="span_targetUrl"></span></a>
+    <br>
+    <br>
+    <span class="hint">(js <code>document.referrer</code> workaround)</span>
   </body>
 </html>
