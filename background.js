@@ -66,13 +66,21 @@ async function onBeforeRequest_main(details)
     )
     )
     {
-        browser.tabs.executeScript(
-            tabid,
-            {
-                runAt: "document_start",
-                code: `window.location.href="${targetUrl}";`
-            }
-        );
+      // console.debug("stopping the request and make a new one. The details of current request:", details );
+        
+        // no longer works on ff102 
+//         browser.tabs.executeScript(
+//             tabid,
+//             {
+//                 runAt: "document_start",
+//                 code: `window.location.href="${targetUrl}";`  // don't use targetUrl because it is toLowerCase()ed
+//             }
+//         );
+        
+        // doesn't work if the link target isn't "_blank"
+//         browser.tabs.update(tabid, {url: detals.url });
+        
+        await browser.tabs.update(tabid, {url: "redirect.html?targeturl=" + encodeURIComponent(details.url) });
     }
 }
 
