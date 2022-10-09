@@ -11,8 +11,13 @@ NOTICE
 */
 async function onBeforeRequest_main(details)
 {
+  // console.debug("onBeforeRequest_main()", details.tabId, details.type , details.url);
+    
     if (await is_off(details)) 
+    {
+      // console.debug("return (off)");
         return;
+    } 
     
     //const resourceType = details.type;
     const tabid = details.tabId;
@@ -41,18 +46,30 @@ async function onBeforeRequest_main(details)
     } 
     
     if (method != "GET")
+    {
+      // console.debug("return (not GET)");
         return;
+    } 
     
     if (!originUrl) 
+    {
+      // console.debug("return (no originUrl)");
         return;
+    } 
     
     for ( unhandled of ["moz-extension:", "chrome-extension:", "about:", "file:", "chrome:", "javascript:", "data:"] )
         if ( targetUrl.startsWith(unhandled) || originUrl.startsWith(unhandled) )
+        {
+          // console.debug("return (protocol unhandled)", originUrl, "--> ",  targetUrl);
             return;
+        }
     
     for ( str of whitelist )
         if (originHost.endsWith(str) && targetHost.endsWith(str) )
+        {
+          // console.debug("return (whitelisted)");
             return;
+        }
     
     if (
     ( targetHost !== originHost )
@@ -90,8 +107,14 @@ NOTICE Chrome doesn't allow async function here
     Change it to sync function for Chrome
 */
 {
+  // console.debug("onBeforeSendHeaders()", details.tabId, details.type , details.url);
+    
     if (await is_off(details)) 
+    {
+        // console.debug("return (off)");
         return;
+    } 
+    // console.debug("here 10", details.type);
     
     const resourceType = details.type;
     
@@ -117,12 +140,17 @@ NOTICE Chrome doesn't allow async function here
         originHost = getUrlHost(originUrl);
     } 
     
+    // console.debug("here 22", details.type);
     if (resourceType == "main_frame")
         for ( str of whitelist )
             if (originHost.endsWith(str) && targetHost.endsWith(str) )
+            {
+                // console.debug("return (whitelisted)");
                 return;
+            } 
     
     
+    // console.debug("here 33");
     for (var i=0; i<details.requestHeaders.length; i++)
     {
         const cur_header = details.requestHeaders[i];
@@ -130,18 +158,23 @@ NOTICE Chrome doesn't allow async function here
             cur_header.name.toLowerCase() === "referrer"
         )
         {
+//             // console.debug("old referer:", cur_header.value);
+            
             var newReferer = null;
             newReferer = getNewReferer(targetUrl, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame", documentUrl);
             
+            // console.debug("new referer:", newReferer, "while", details.type, "visiting", details.url);
             cur_header.value = newReferer;
             if (!newReferer)
             {
+                // console.debug("splicing referer header");
                 details.requestHeaders.splice(i,1);
                 i--;
             }
         }
     }
     
+    // console.debug("here 44");
     return {requestHeaders: details.requestHeaders};
 }
 
@@ -156,7 +189,10 @@ function getNewReferer(targetUrl, oldReferer="", isTop, isSubframeTop, documentU
     
     if (isTop)
         if ( targetHost === oldRefererHost )
+        {
+            // console.debug("here 11");
             newReferer = removeUrlParts(oldReferer);
+        } 
         else 
             newReferer = "";
     else if (isSubframeTop)
