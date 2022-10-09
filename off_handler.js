@@ -54,12 +54,19 @@ async function setGlobalEnable(){
     if ( global_enabled == true ) 
         return;
     
-    listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
-    browser.webRequest.onBeforeSendHeaders.addListener(
-        onBeforeSendHeaders,
-        {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ]},
-        ["blocking", "requestHeaders"] // NOTICE need "extraHeaders" for Chrome
-    ); 
+    
+    /* NOTICE
+     * can remove the 'if' for Chrome
+     */
+    if ( ( await browser.storage.local.get() )['easycpu'] !== true )
+    {
+        listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
+        browser.webRequest.onBeforeSendHeaders.addListener(
+            onBeforeSendHeaders,
+            {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ]},
+            ["blocking", "requestHeaders"] // NOTICE need "extraHeaders" for Chrome
+        ); 
+    } 
     
     /* NOTICE 
      * delete for Chrome
