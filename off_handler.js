@@ -57,7 +57,7 @@ async function setGlobalEnable(){
     listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
     browser.webRequest.onBeforeSendHeaders.addListener(
         onBeforeSendHeaders,
-        {urls: ["<all_urls>"]},
+        {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ]},
         ["blocking", "requestHeaders"] // NOTICE need "extraHeaders" for Chrome
     ); 
     
@@ -69,8 +69,8 @@ async function setGlobalEnable(){
         listeners.push([browser.webRequest.onBeforeRequest, onBeforeRequest_main]);
         browser.webRequest.onBeforeRequest.addListener(
             onBeforeRequest_main,
-            {urls: ["<all_urls>"], types: ["main_frame"]},
-            ["blocking", "requestBody"]
+            {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ], types: ["main_frame"]},
+            ["blocking"]
         ); 
     }
     
