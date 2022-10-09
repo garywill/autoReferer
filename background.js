@@ -18,15 +18,27 @@ async function onBeforeRequest_main(details)
     const tabid = details.tabId;
     const method = details.method;
 
-    const targetUrl = details.url.toLowerCase() || details.url ;
-    const targetHost = getUrlHost(targetUrl) ;
+    var targetUrl = null;
+    var targetHost = null;
+//     var documentUrl = null;
+//     var documentHost = null;
+    var originUrl = null
+    var originHost = null
     
-//     const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
-//     const documentHost = getUrlHost(documentUrl);
+    if (details.url) {
+        targetUrl = details.url.toLowerCase() || details.url ;
+        targetHost = getUrlHost(targetUrl) ;
+    }
     
-    const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
-    const originHost = getUrlHost(originUrl);
+//     if (details.documentUrl) {
+//         documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+//         documentHost = getUrlHost(documentUrl);
+//     }
     
+    if (details.originUrl) {
+        originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+        originHost = getUrlHost(originUrl);
+    } 
     
     if (method != "GET")
         return;
@@ -75,14 +87,27 @@ NOTICE Chrome doesn't allow async function here
     
     const resourceType = details.type;
     
-    const targetUrl = details.url.toLowerCase() || details.url ;
-    const targetHost = getUrlHost(targetUrl) ;
+    var targetUrl = null;
+    var targetHost = null;
+    var documentUrl = null;
+    var documentHost = null;
+    var originUrl = null
+    var originHost = null
     
-    const documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
-//     const documentHost = getUrlHost(documentUrl);
+    if (details.url) {
+        targetUrl = details.url.toLowerCase() || details.url ;
+        targetHost = getUrlHost(targetUrl) ;
+    }
     
-    const originUrl = details.originUrl.toLowerCase() || details.originUrl ;
-    const originHost = getUrlHost(originUrl);
+    if (details.documentUrl) {
+        documentUrl = details.documentUrl.toLowerCase() || details.documenUrl ;
+//         documentHost = getUrlHost(documentUrl);
+    }
+    
+    if (details.originUrl) {
+        originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+        originHost = getUrlHost(originUrl);
+    } 
     
     if (resourceType == "main_frame")
         for ( str of whitelist )
