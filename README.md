@@ -7,7 +7,7 @@ Control HTTP referer to protect privacy and not break web.
 
 **Notice**: Due to browser bug on javascript `document.referrer` on **Firefox** 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)) (also on **Chrome**), using a regular referer controlling addon you can get 70% of expected protection until they fix that bug. 
 
-So, **we've implemented a workaround to improve protection to 85%. Please enable workaround in addon settings** (Firefox only currently).
+So, **we've implemented a workaround to improve protection to 85%. Please enable workaround in addon settings** .
 
 ## Referer Policy of this Addon
 
@@ -31,7 +31,7 @@ We believe that can protect privacy enough and won't break web.
 
 This addon doesn't use content script. Content script hiding `document.referrer` is not 100% reliable.
 
-**Instead, we use this workaround to kill `document.referrer`**: (Firefox only)
+**Instead, we use this workaround to kill `document.referrer`**: 
 
 Cancel all cross-domain navigating requests and make freshnew ones, like directly hit (currently only implemented for GET method and main frame, other methods and sub-frames remain as is)
 
@@ -47,3 +47,7 @@ If user find a web broken, user can temporary set this addon disabled via toolba
 (above can be set as keyboard shortcuts)
 
 there's showy toolbar button badge indicating fallback disabling status.
+
+## Allowlist
+
+Currently it has hard-coded allowlist.

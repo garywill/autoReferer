@@ -10,17 +10,24 @@
         
         <div>
             <input type="checkbox" id="checkbox-workaround" >
-            Use workaround to kill <code>document.referrer</code> bug. Workaround: cancel all requests and make freshnew ones when cross domain, like directly hit (currently only implemented for GET method, other methods remain as is)
+            Use workaround to kill <code>document.referrer</code> bug. 
+            <br>
+            Our workaround is: 
+            on cross-domain navigation, cancel request at <code>onBeforeRequest</code>, then make freshnew one, like directly hit (currently only implemented for GET method, other methods remain as is)
             </input>
         </div>
-        
+        <br><br>
         <div>
             <input type="checkbox" id="checkbox-easycpu" >
-                (Don't check this is you don't enable above workaround) Don't handle in-page resources to reduce CPU consumption.
+                (Don't check this if you don't enable above workaround) 
+                <br>
+                Don't handle <code>onBeforeSendHeaders</code> so reduce CPU consumption.
+                <br>
+                (give up this addon's in-page requests referer url trimming)
+                <br>
 #ifndef CHROME
-                (If you have above workaround enabled, and your Firefox 's <code>network.http.referer.trimmingPolicy = 2</code>, no in-page requests handling is 98% the same as do handling)
+                (If you have above workaround enabled, and your Firefox 's <code>network.http.referer.trimmingPolicy = 2</code>, no <code>onBeforeSendHeaders</code> handling is 98% the same as do handling)
 #else                
-                (give up some of this addon's privacy protection)
 #endif   
 
 
