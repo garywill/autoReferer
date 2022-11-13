@@ -61,8 +61,11 @@ async function onBeforeRequest_main(details)
 //         documentHost = getUrlHost(documentUrl);
 //     }
     
-    if (details.originUrl) {
-        originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+    if (isFirefox ? details.originUrl : details.initiator) {
+        if (isFirefox)
+            originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+        else
+            originUrl = details.initiator.toLowerCase() || details.initiator ;
         originHost = getUrlHost(originUrl);
     } 
     
@@ -122,6 +125,10 @@ async function onBeforeRequest_main(details)
         await
         #endif 
         browser.tabs.update(tabid, {url: "redirect.html?targeturl=" + encodeURIComponent(details.url) });
+        
+        // on some browser (e.g. Firefox version ~100), if return cancel=true, it will also make above update cancled  
+        if (isChrome)
+            return {cancel: true};
     }
 }
 

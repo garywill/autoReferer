@@ -2,7 +2,7 @@
     "name": "Auto Referer",
     "description": "Control referer to protect privacy and not break web",
     "manifest_version": 2,
-    "version": "0.6.801",
+    "version": "0.8.12",
     "homepage_url": "https://github.com/garywill/autoReferer",
     "author": {
         "name": "Garywill",
@@ -15,7 +15,8 @@
         "ws://*/*", 
         "wss://*/*", 
         "<all_urls>", 
-        "contextMenus"
+        "contextMenus",
+        "storage"
     ],
     "icons": {
         "128": "icon.png"
@@ -40,5 +41,8 @@
         "toggle_global" : {
             "description": "Toggle globally enable/disable"
         }
+    }, 
+    "options_ui": {
+        "page": "options.html"
     }
 } 
