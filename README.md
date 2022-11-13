@@ -3,13 +3,13 @@
 Control HTTP referer to protect privacy and not break web.
 
 - [Firefox Addon](https://addons.mozilla.org/firefox/addon/auto-referer/)
-- [Chrome Addon](https://chrome.google.com/webstore/detail/auto-referer/dafnjeokmkpjdlfgllccdenmikeglgab)
+- [Chrome Addon](https://chrome.google.com/webstore/detail/auto-referer/dafnjeokmkpjdlfgllccdenmikeglgab) (Manifest v2 needed)
 
-**Notice**: Due to browser bug on javascript `document.referrer` on Firefox 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)) (also on Chrome), using a regular referer controlling addon you can get 70% of expected protection until they fix that bug. 
+**Notice**: Due to browser bug on javascript `document.referrer` on **Firefox** 69+ ([1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), [1601743](https://bugzilla.mozilla.org/show_bug.cgi?id=1601743)) (also on **Chrome**), using a regular referer controlling addon you can get 70% of expected protection until they fix that bug. 
 
 So, **we've implemented a workaround to improve protection to 85%. Please enable workaround in addon settings** (Firefox only currently).
 
-Referer policy:
+## Referer Policy of this Addon
 
 1. For webs' top frame (i.e. clicking link, navigating, redirecting etc.):
    
@@ -46,4 +46,4 @@ If user find a web broken, user can temporary set this addon disabled via toolba
 
 (above can be set as keyboard shortcuts)
 
-there's showy toolbar button badge indicating disabling status.
+there's showy toolbar button badge indicating fallback disabling status.
