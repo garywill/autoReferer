@@ -51,3 +51,8 @@ there's showy toolbar button badge indicating fallback disabling status.
 ## Allowlist
 
 Currently it has hard-coded allowlist.
+
+## Disclaimer
+
+This open souce addon comes with no warranty. Use on you own risk!
+

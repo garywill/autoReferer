@@ -17,7 +17,7 @@ setGlobalEnable();
 *      in-page link request from in iframe: 
 *              originUrl: iframe's src 
 *              documentUrl: parent frame's url
-* Chrome: initiator
+* Chrome: initiator (can be string 'null')
 */
 
 #ifndef CHROME
@@ -173,8 +173,11 @@ async function onBeforeSendHeaders(details)
 //         documentHost = getUrlHost(documentUrl);
     }
     
-    if (details.originUrl) {
-        originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+    if (isFirefox ? details.originUrl : details.initiator) {
+        if (isFirefox)
+            originUrl = details.originUrl.toLowerCase() || details.originUrl ;
+        else
+            originUrl = details.initiator.toLowerCase() || details.initiator ;
         originHost = getUrlHost(originUrl);
     } 
     
