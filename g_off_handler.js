@@ -54,23 +54,22 @@ async function setGlobalEnable(){
     if ( global_enabled == true ) 
         return;
     
+    var onBeforeSendHeaders_listener_options; 
+    if (isFirefox)
+        onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders"];
+    if (isChrome)
+        onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders", "extraHeaders"];
     
-    /* NOTICE
-     * can remove the 'if' for Chrome
-     */
     if ( ( await browser.storage.local.get() )['easycpu'] !== true )
     {
         listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
         browser.webRequest.onBeforeSendHeaders.addListener(
             onBeforeSendHeaders,
             {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ]},
-            ["blocking", "requestHeaders"] // NOTICE need "extraHeaders" for Chrome
+            onBeforeSendHeaders_listener_options 
         ); 
     } 
     
-    /* NOTICE 
-     * delete for Chrome
-     */
     if ( ( await browser.storage.local.get() )['workaround'] === true )
     {
         listeners.push([browser.webRequest.onBeforeRequest, onBeforeRequest_main]);
@@ -254,11 +253,11 @@ browser.tabs.onCreated.addListener( (tab) => {
     }
 });
 
+#ifndef CHROME
 async function is_off(details, tabid, tab, wid, changeInfo){
-/*
-NOTICE Chrome doesn't allow async function here
-    Change it to sync function for Chrome
-*/
+#else
+      function is_off(details, tabid, tab, wid, changeInfo){
+#endif
     if ( ! global_enabled ) 
         return true;
     
@@ -278,10 +277,7 @@ NOTICE Chrome doesn't allow async function here
     if (isTabIn_list_h(tabid) || isTabIn_list_t(tabid) ) 
         return true;
     
-    /*
-    NOTICE Chrome doesn't allow async function here
-        Change it to sync function for Chrome
-    */
+    #ifndef CHROME
     if ( wid === undefined )
         try{ 
             wid = (await browser.tabs.get(tabid)).windowId;
@@ -290,6 +286,7 @@ NOTICE Chrome doesn't allow async function here
                 console.error(err);
             return true;
         }
+    #endif
     
     if( isWindowDisabled( wid ) ) 
         return true;

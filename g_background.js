@@ -5,15 +5,36 @@ setGlobalEnable();
     // TODO .onion .i2p
 //----------------------------------------------------------
 
-/*
-NOTICE 
-    delete for Chrome
+
+/* 
+* webRequest details:
+* Firefox:
+*      top-frame html request:
+*              originUrl: the url which user was visiting before this navigation
+*              documentUrl: undefined
+*      in-page link request from in main-frame: 
+*              originUrl = documentUrl
+*      in-page link request from in iframe: 
+*              originUrl: iframe's src 
+*              documentUrl: parent frame's url
+* Chrome: initiator
 */
+
+#ifndef CHROME
 async function onBeforeRequest_main(details)
+#else
+      function onBeforeRequest_main(details)
+#endif
 {
   // console.debug("onBeforeRequest_main()", details.tabId, details.type , details.url);
     
-    if (await is_off(details)) 
+    if (
+        #ifndef CHROME
+        await is_off(details)
+        #else
+              is_off(details)
+        #endif
+    ) 
     {
       // console.debug("return (off)");
         return;
@@ -97,19 +118,29 @@ async function onBeforeRequest_main(details)
         // doesn't work if the link target isn't "_blank"
 //         browser.tabs.update(tabid, {url: detals.url });
         
-        await browser.tabs.update(tabid, {url: "redirect.html?targeturl=" + encodeURIComponent(details.url) });
+        #ifndef CHROME
+        await
+        #endif 
+        browser.tabs.update(tabid, {url: "redirect.html?targeturl=" + encodeURIComponent(details.url) });
     }
 }
 
+#ifndef CHROME
 async function onBeforeSendHeaders(details)
-/*
-NOTICE Chrome doesn't allow async function here
-    Change it to sync function for Chrome
-*/
+#else
+      function onBeforeSendHeaders(details)
+#endif
 {
   // console.debug("onBeforeSendHeaders()", details.tabId, details.type , details.url);
     
-    if (await is_off(details)) 
+    if (
+        #ifndef CHROME
+        await is_off(details)
+        #else
+              is_off(details)
+        #endif
+    ) 
+
     {
         // console.debug("return (off)");
         return;

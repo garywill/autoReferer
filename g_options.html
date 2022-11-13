@@ -16,7 +16,14 @@
         
         <div>
             <input type="checkbox" id="checkbox-easycpu" >
-                (Don't check this is you don't enable above workaround) Don't handle in-page resources to reduce CPU consumption. (If you have above workaround enabled, and your Firefox 's <code>network.http.referer.trimmingPolicy = 2</code>, no in-page requests handling is 98% the same as do handling)
+                (Don't check this is you don't enable above workaround) Don't handle in-page resources to reduce CPU consumption.
+#ifndef CHROME
+                (If you have above workaround enabled, and your Firefox 's <code>network.http.referer.trimmingPolicy = 2</code>, no in-page requests handling is 98% the same as do handling)
+#else                
+                (give up some of this addon's privacy protection)
+#endif   
+
+
             </input>
         </div>
         
