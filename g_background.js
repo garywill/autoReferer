@@ -88,12 +88,12 @@ async function onBeforeRequest_main(details)
             return;
         }
     
-    for ( str of whitelist )
-        if (originHost.endsWith(str) && targetHost.endsWith(str) )
-        {
-          // console.debug("return (whitelisted)");
-            return;
-        }
+    if (is_whitelisted( originHost, targetHost) )
+    {
+        console.debug("return (whitelisted)");
+        return; 
+    }
+
     
     if (
     ( targetHost !== originHost )
@@ -183,12 +183,11 @@ async function onBeforeSendHeaders(details)
     
     // console.debug("here 22", details.type);
     if (resourceType == "main_frame")
-        for ( str of whitelist )
-            if (originHost.endsWith(str) && targetHost.endsWith(str) )
-            {
-                // console.debug("return (whitelisted)");
-                return;
-            } 
+        if (is_whitelisted( originHost, targetHost) )
+        {
+            console.debug("return (whitelisted)");
+            return; 
+        }
     
     
     // console.debug("here 33");
