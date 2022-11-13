@@ -4,6 +4,18 @@
     <head>
         <meta charset="utf-8"/>
         
+        <script src="browser-polyfill.min.js"></script>
+        <script src="whitelist.js"></script>
+        <script src="whitelist_extra.js"></script>
+        <script src="options.js"></script>
+
+        <style>
+            textarea {
+                width: 100%; 
+                max-width: 600px;
+                min-height: 200px;
+            } 
+        </style>
     </head>
 
     <body>
@@ -34,8 +46,61 @@
             </input>
         </div>
         
+        <hr>
         
-        <script src="browser-polyfill.min.js"></script>
-        <script src="options.js"></script>
+        <details>
+        <summary>Allowlist</summary>
+            
+            <div style="display:none;">
+                In addition to hard-coded allowlist, user can add allowed domains 
+                <br>
+                (Experimental feature! The mechanism may be changed in the future)
+                <br><br>
+                User Allowlist: 
+                <br>
+                
+                <textarea id="textarea_userWhitelist"></textarea>
+                <br>
+                <button id="btn_save_userWhitelist">Save</button>
+                <br>
+                <div>
+                    Write in JSON. 
+                    <br>
+                    Example:
+                    <br>
+                    <code>
+                        <pre>
+    [
+        ".baidu.com", 
+        [ ".google.com", ".youtube.com"], 
+        "twitter.com", 
+    ]
+                        </pre>
+                    </code>
+                    <br>
+                    Above example means no handling referer when:
+                    <code>
+                        <ul style="list-style-type: none;">
+                            <li>*.baidu.com ↔ *.baidu.com</li>
+                            <li>*.google.com ↔ *.google.com </li>
+                            <li>*.google.com ↔ *.youtube.com </li>
+                            <li>*.youtube.com ↔ *.youtube.com</li>
+                            <li>twitter.com ↔ twitter.com</li>
+                        </ul>
+                    </code>
+                </div>
+            </div>
+            
+            <br>
+            
+            <div>
+                Hard-coded allowlist:
+                <br>
+                <textarea id="textarea_buildinWhitelist" readonly="true"></textarea>
+            </div>
+            
+        </details>
+        
+
     </body>
 </html> 
