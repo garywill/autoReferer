@@ -1,9 +1,11 @@
 var whitelist = [
-    [ ".taobao.com", ".alipay.com", ".tmall.com" ], 
-    
-    ".cnki.net", 
-    
     "gitlab.com", 
+    
+    [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
+    
+    ["szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" ], 
+    
+    ["cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn"], 
 ];
 
 function is_whitelisted(originHost, targetHost)
@@ -14,7 +16,10 @@ function is_whitelisted(originHost, targetHost)
         if ( typeof(ele) === "string" )
         { 
             const str = ele;
-            if (originHost.endsWith(str) && targetHost.endsWith(str) )
+            if (
+                ( originHost === str || originHost.endsWith('.'+str) )
+                && (targetHost === str || targetHost.endsWith('.'+str) )
+            )
             {
                 return true;
             } 
@@ -27,7 +32,7 @@ function is_whitelisted(originHost, targetHost)
             var targetW = false;
             
             for (str of strArr)
-                if ( originHost.endsWith(str) )
+                if ( originHost === str || originHost.endsWith('.'+str) )
                 {
                     originW = true;
                     break;
@@ -35,7 +40,7 @@ function is_whitelisted(originHost, targetHost)
 
             if (originW)
                 for (str of strArr)
-                    if ( targetHost.endsWith(str) )
+                    if (targetHost === str || targetHost.endsWith('.'+str) )
                     {
                         return true;
                     }
