@@ -121,10 +121,13 @@ async function onBeforeRequest_main(details)
         // doesn't work if the link target isn't "_blank"
 //         browser.tabs.update(tabid, {url: detals.url });
         
+        var urlEncoder = new URL( chrome.runtime.getURL("redirect.html") );
+        urlEncoder.searchParams.set("targeturl", details.url);
+        
         #ifndef CHROME
         await
         #endif 
-        browser.tabs.update(tabid, {url: "redirect.html?targeturl=" + encodeURIComponent(details.url) });
+        browser.tabs.update(tabid, {url: urlEncoder.href });
         
         // on some browser (e.g. Firefox version ~100), if return cancel=true, it will also make above update cancled  
         if (isChrome)
