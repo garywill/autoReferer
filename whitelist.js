@@ -1,7 +1,7 @@
 var whitelist = [
     "gitlab.com", 
     
-    [ "appstoreconnect.apple.com", "appleid.apple.com" ],
+    [ "appstoreconnect.apple.com", "appleid.apple.com", "itunesconnect.apple.com" ],
     
     [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
     
