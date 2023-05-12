@@ -1,11 +1,13 @@
 var whitelist = [
     "gitlab.com", 
     
+    [ "appstoreconnect.apple.com", "appleid.apple.com" ],
+    
     [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
     
-    ["szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" ], 
+    [ "szlcsc.com", "lceda.cn", "jlcsmt.com", "oshwhub.com" ], 
     
-    ["cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn"], 
+    [ "cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn" ], 
 ];
 
 function is_whitelisted(originHost, targetHost)
