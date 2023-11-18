@@ -12,9 +12,39 @@ var whitelist = [
     ["ixigua.com", "douyin.com", "toutiao.com"], 
 ];
 
+function is_whitelisted_single(host)
+{
+    // console.debug("is_whitelisted_single()", host);
+    for ( ele of whitelist )
+    {
+        if ( typeof(ele) === "string" )
+        { 
+            const str = ele;
+            if ( host === str || host.endsWith('.'+str) )
+            {
+                return true;
+            } 
+        }
+        else if ( Array.isArray(ele) )
+        {
+            const strArr = ele;
+            
+            for (subEle of strArr)
+            {
+                const str = subEle;
+                if ( host === str || host.endsWith('.'+str) )
+                {
+                    return true;
+                } 
+            }
+        }
+    }
+    
+}
+
 function is_whitelisted(originHost, targetHost)
 {
-    console.debug("is_whitelisted()", originHost, targetHost);
+    // console.debug("is_whitelisted()", originHost, targetHost);
     for ( ele of whitelist )
     {
         if ( typeof(ele) === "string" )

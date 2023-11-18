@@ -185,12 +185,20 @@ async function onBeforeSendHeaders(details)
     } 
     
     // console.debug("here 22", details.type);
-    if (resourceType == "main_frame")
+    if (resourceType == "main_frame") {
         if (is_whitelisted( originHost, targetHost) )
         {
-            console.debug("return (whitelisted)");
+            // console.debug("return (whitelisted A)");
             return; 
         }
+    }else {
+        if (is_whitelisted_single(originHost))
+        {
+            // console.debug("return (whitelisted B)");
+            return; 
+            
+        }
+    }
     
     
     // console.debug("here 33");
