@@ -20,6 +20,8 @@ setGlobalEnable();
 * Chrome: initiator (can be string 'null')
 */
 
+
+// main_frame only
 #ifndef CHROME
 async function onBeforeRequest_main(details)
 #else
@@ -135,6 +137,8 @@ async function onBeforeRequest_main(details)
     }
 }
 
+
+// any request type, including main_frame
 #ifndef CHROME
 async function onBeforeSendHeaders(details)
 #else

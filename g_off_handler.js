@@ -54,31 +54,38 @@ async function setGlobalEnable(){
     if ( global_enabled == true ) 
         return;
     
-    var onBeforeSendHeaders_listener_options; 
-    if (isFirefox)
-        onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders"];
-    if (isChrome)
-        onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders", "extraHeaders"];
-    
+    // --------------------------------
+    // any request type, including main_frame
     if ( ( await browser.storage.local.get() )['easycpu'] !== true )
     {
+        var onBeforeSendHeaders_listener_options; 
+        if (isFirefox)
+            onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders"];
+        if (isChrome)
+            onBeforeSendHeaders_listener_options = ["blocking", "requestHeaders", "extraHeaders"];
+
         listeners.push([browser.webRequest.onBeforeSendHeaders, onBeforeSendHeaders]);
+        
         browser.webRequest.onBeforeSendHeaders.addListener(
             onBeforeSendHeaders,
             {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ]},
             onBeforeSendHeaders_listener_options 
         ); 
     } 
-    
+    //---------------------------
+    // main_frame only
     if ( ( await browser.storage.local.get() )['workaround'] === true )
     {
         listeners.push([browser.webRequest.onBeforeRequest, onBeforeRequest_main]);
+        
+        
         browser.webRequest.onBeforeRequest.addListener(
             onBeforeRequest_main,
             {urls: ["<all_urls>", "*://*/*", "ws://*/*", "wss://*/*", ], types: ["main_frame"]},
             ["blocking"]
         ); 
     }
+    //------------------------------
     
     global_enabled = true;
     updateGlobalIcon();
