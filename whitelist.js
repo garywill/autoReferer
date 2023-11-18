@@ -6,6 +6,8 @@ var whitelist = [
     ["szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" ], 
     
     ["cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn"], 
+    
+    ["ixigua.com", "douyin.com", "toutiao.com"]
 ];
 
 function is_whitelisted(originHost, targetHost)
