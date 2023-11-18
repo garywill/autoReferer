@@ -188,23 +188,8 @@ async function onBeforeSendHeaders(details)
         else
             originUrl = details.initiator.toLowerCase() || details.initiator ;
         originHost = getUrlHost(originUrl);
-    } 
-    
-    // console.debug("here 22", details.type);
-    if (resourceType == "main_frame" && originHost && originHost != targetHost) {
-        if (is_whitelisted( originHost, targetHost) )
-        {
-            // console.debug("return (whitelisted A)");
-            return; 
-        }
-    }else {
-        if (is_whitelisted_single(originHost))
-        {
-            // console.debug("return (whitelisted B)");
-            return; 
-            
-        }
     }
+    
     
     
     // console.debug("here 33");
@@ -218,7 +203,7 @@ async function onBeforeSendHeaders(details)
 //             // console.debug("old referer:", cur_header.value);
             
             var newReferer = null;
-            newReferer = getNewReferer(targetUrl, cur_header.value, resourceType == "main_frame", resourceType == "sub_frame", documentUrl);
+            newReferer = getNewReferer(targetUrl, cur_header.value, resourceType, documentUrl);
             
             // console.debug("new referer:", newReferer, "while", details.type, "visiting", details.url);
             cur_header.value = newReferer;
@@ -238,51 +223,78 @@ async function onBeforeSendHeaders(details)
 
 //===================================================
 // referer policy
-function getNewReferer(targetUrl, oldReferer="", isTop, isSubframeTop, documentUrl){ 
+function getNewReferer(targetUrl, oldReferer="", resourceType, documentUrl){ 
+    // console.debug('getNewReferer()', targetUrl, oldReferer);
+    
+    const isTop = (resourceType == "main_frame" )
+    const isSubFrameTop = (resourceType == "sub_frame")
+    
     var newReferer = "";
     
     const targetHost = getUrlHost(targetUrl);
     const oldRefererHost = getUrlHost(oldReferer);
+    const documentHost = getUrlHost(documentUrl);
     
-    if (isTop)
-        if ( targetHost === oldRefererHost )
-        {
-            // console.debug("here 11");
-            newReferer = removeUrlParts(oldReferer);
-        } 
-        else 
-            newReferer = "";
-    else if (isSubframeTop)
-        if ( targetHost === oldRefererHost ||
-            getUrlHost(documentUrl) === oldRefererHost
-        )
-            newReferer = removeUrlParts(oldReferer);
-        else 
-            newReferer = "";
+    
+    if (
+        (     isTop &&                   is_whitelisted( oldRefererHost, targetHost) )
+        ||  ( isSubFrameTop && (
+                                    is_whitelisted( oldRefererHost, targetHost  ) 
+                                 || is_whitelisted( oldRefererHost, documentHost) 
+                               )
+            )
+        || ( !isTop && !isSubFrameTop && is_whitelisted_single(oldRefererHost) )
+    ) 
+    { 
+        console.log("getNewReferer() whitelisted!")
+        newReferer = oldReferer;
+    }
     else
-        newReferer = removeUrlParts(oldReferer);
+    {
+        if (isTop) 
+        {
+            if ( targetHost === oldRefererHost )
+            {
+                // console.debug("here 11");
+                newReferer = removeUrlParts(oldReferer);
+            } 
+            else 
+                newReferer = "";
+        } 
+        else if (isSubFrameTop) 
+        {
+            if ( targetHost === oldRefererHost ||
+                documentHost === oldRefererHost
+            )
+                newReferer = removeUrlParts(oldReferer);
+            else 
+                newReferer = "";
+        } 
+        else
+            newReferer = removeUrlParts(oldReferer);
+        
 
-
-    
-    // when httpS to http (downgrade)
-    if ( 
-        ( oldReferer.toLowerCase().startsWith("https://") ||
-        oldReferer.toLowerCase().startsWith("wss://") )
-        && 
-        ( targetUrl.startsWith("http://") ||
-        targetUrl.startsWith("ws://") )
-    )
-        newReferer = "";
-    
-    // when url is other strange format that we don't know
-    if ( !targetHost || !oldRefererHost )
-        newReferer = "";
-    
-    // make sure referer only starts with http or https
-    if (!newReferer.toLowerCase().startsWith("https://") &&
-        !newReferer.toLowerCase().startsWith("http://")
-    )
-        newReferer = "";
+        
+        // when httpS to http (downgrade)
+        if ( 
+            ( oldReferer.toLowerCase().startsWith("https://") ||
+            oldReferer.toLowerCase().startsWith("wss://") )
+            && 
+            ( targetUrl.startsWith("http://") ||
+            targetUrl.startsWith("ws://") )
+        )
+            newReferer = "";
+        
+        // when url is other strange format that we don't know
+        if ( !targetHost || !oldRefererHost )
+            newReferer = "";
+        
+        // make sure referer only starts with http or https
+        if (!newReferer.toLowerCase().startsWith("https://") &&
+            !newReferer.toLowerCase().startsWith("http://")
+        )
+            newReferer = "";
+    }
     
     return newReferer;
 }
