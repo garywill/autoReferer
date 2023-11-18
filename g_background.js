@@ -22,6 +22,7 @@ setGlobalEnable();
 
 
 // main_frame only
+// cancel old request and make new
 #ifndef CHROME
 async function onBeforeRequest_main(details)
 #else
@@ -139,6 +140,7 @@ async function onBeforeRequest_main(details)
 
 
 // any request type, including main_frame
+// change http header
 #ifndef CHROME
 async function onBeforeSendHeaders(details)
 #else
