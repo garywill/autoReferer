@@ -15,6 +15,10 @@ var whitelist = [
 function is_whitelisted_single(host)
 {
     // console.debug("is_whitelisted_single()", host);
+    
+    if (!host)
+        return;
+    
     for ( ele of whitelist )
     {
         if ( typeof(ele) === "string" )
@@ -45,6 +49,10 @@ function is_whitelisted_single(host)
 function is_whitelisted(originHost, targetHost)
 {
     // console.debug("is_whitelisted()", originHost, targetHost);
+    
+    if (!originHost || !targetHost)
+        return;
+    
     for ( ele of whitelist )
     {
         if ( typeof(ele) === "string" )
