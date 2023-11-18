@@ -1,23 +1,36 @@
 #/bin/bash
 
-scriptpath="$( dirname "$0" )"
+script=$(readlink -f "$0")
+scriptpath=$(dirname "$script")
+
 cd "$scriptpath"
 
-TARGET="firefox"
 
-if [[ "$1" ]]; then
-    TARGET="$1"
-fi
+function gpp_those_files() 
+{
+    local TARGET="$1"
+    echo "TARGET is $TARGET"
+    
+    mkdir -p dist/$TARGET/
+    rm    -r dist/$TARGET/*
 
-GPP_MACRO=
-if [[ "$TARGET" == "firefox" ]]; then
-    GPP_MACRO=""
-elif [[ "$TARGET" == "chrome" ]]; then
-    GPP_MACRO="-D CHROME"
-fi
+    cp  *.html *.js *.png LICENSE dist/$TARGET/
 
-while read -r SRCF
-do
-    echo "$SRCF"
-    gpp $GPP_MACRO "$SRCF" -o "${SRCF:2}"
-done < <(ls -1 g_*)
+    rm  dist/$TARGET/g_*  
+    
+    GPP_MACRO="-D $TARGET"
+    while read -r SRCF
+    do
+        echo "compile $SRCF"
+        gpp $GPP_MACRO "$SRCF" -o "dist/$TARGET/${SRCF:2}"
+    done < <(ls -1 g_*)
+}
+
+gpp_those_files "firefox"
+gpp_those_files "chrome"
+
+cp manifest.json          dist/firefox/manifest.json
+cp manifest-chrome.json   dist/chrome/manifest.json
+
+
+

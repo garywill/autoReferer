@@ -27,7 +27,7 @@ So, **we've implemented a workaround to improve protection to 85%. Please enable
 
 We believe that can protect privacy enough and won't break web.
 
-## `document.referrer` bug workaround
+### `document.referrer` bug workaround
 
 This addon doesn't use content script. Content script hiding `document.referrer` is not 100% reliable.
 
@@ -35,7 +35,7 @@ This addon doesn't use content script. Content script hiding `document.referrer`
 
 Cancel all cross-domain navigating requests and make freshnew ones, like directly hit (currently only implemented for GET method and main frame, other methods and sub-frames remain as is)
 
-## Fallback operation
+### Fallback operation
 
 If user find a web broken, user can temporary set this addon disabled via toolbar button for:
 
@@ -48,9 +48,13 @@ If user find a web broken, user can temporary set this addon disabled via toolba
 
 there's showy toolbar button badge indicating fallback disabling status.
 
-## Allowlist
+### Allowlist
 
 Currently it has hard-coded allowlist.
+
+## How to build
+
+Install gpp. Run `build.sh`
 
 ## Disclaimer
 
