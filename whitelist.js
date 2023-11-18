@@ -3,11 +3,13 @@ var whitelist = [
     
     [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
     
+    ["apple.com", "cdn-apple.com", "itunes.com"], 
+    
     ["szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" ], 
     
     ["cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn"], 
     
-    ["ixigua.com", "douyin.com", "toutiao.com"]
+    ["ixigua.com", "douyin.com", "toutiao.com"], 
 ];
 
 function is_whitelisted(originHost, targetHost)
