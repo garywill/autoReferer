@@ -189,7 +189,7 @@ async function onBeforeSendHeaders(details)
     } 
     
     // console.debug("here 22", details.type);
-    if (resourceType == "main_frame") {
+    if (resourceType == "main_frame" && originHost && originHost != targetHost) {
         if (is_whitelisted( originHost, targetHost) )
         {
             // console.debug("return (whitelisted A)");
