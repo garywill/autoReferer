@@ -20,7 +20,7 @@ setGlobalEnable();
 * Chrome: initiator (can be string 'null')
 */
 
-#ifndef chrome
+#ifndef CHROME
 async function onBeforeRequest_main(details)
 #else
       function onBeforeRequest_main(details)
@@ -29,7 +29,7 @@ async function onBeforeRequest_main(details)
   // console.debug("onBeforeRequest_main()", details.tabId, details.type , details.url);
     
     if (
-        #ifndef chrome
+        #ifndef CHROME
         await is_off(details)
         #else
               is_off(details)
@@ -124,7 +124,7 @@ async function onBeforeRequest_main(details)
         var urlEncoder = new URL( chrome.runtime.getURL("redirect.html") );
         urlEncoder.searchParams.set("targeturl", details.url);
         
-        #ifndef chrome
+        #ifndef CHROME
         await
         #endif 
         browser.tabs.update(tabid, {url: urlEncoder.href });
@@ -135,7 +135,7 @@ async function onBeforeRequest_main(details)
     }
 }
 
-#ifndef chrome
+#ifndef CHROME
 async function onBeforeSendHeaders(details)
 #else
       function onBeforeSendHeaders(details)
@@ -144,7 +144,7 @@ async function onBeforeSendHeaders(details)
   // console.debug("onBeforeSendHeaders()", details.tabId, details.type , details.url);
     
     if (
-        #ifndef chrome
+        #ifndef CHROME
         await is_off(details)
         #else
               is_off(details)
