@@ -76,6 +76,7 @@ function is_whitelisted(originHost, targetHost)
                 for (str of strArr)
                     if (targetHost === str || targetHost.endsWith('.'+str) )
                     {
+                        targetW = true;
                         return true;
                     }
         }
