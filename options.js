@@ -12,7 +12,7 @@ async function get_settings_sync()
 
 
 document.addEventListener("DOMContentLoaded", async function() {
-
+    // kill js referer bug
     (async () => {
         if ( ( await get_settings_local() ) ['workaround'] === true) 
             document.getElementById("checkbox-workaround").checked = true;
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     
     
     
-    
+    // ease cpu
     (async () => {
         if ( ( await get_settings_local() ) ['easycpu'] === true)
             document.getElementById("checkbox-easycpu").checked = true;
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     
     
     
-    
+    // user whitelist
     async function load_userWhitelist() 
     {
         const loaded_obj = ( await get_settings_sync() ) ['user_whitelist'] ;
@@ -85,6 +85,20 @@ document.addEventListener("DOMContentLoaded", async function() {
         };
     } ) () ; 
     
+    
+    // build in whitelist
+    (async () => {
+        if ( ( await get_settings_sync() ) ['enBuildinWhitelist'] !== false)
+            document.getElementById("checkbox-enBuildinWhitelist").checked = true;
+    } ) () ;    
+    (async () => {
+        document.getElementById("checkbox-enBuildinWhitelist").addEventListener("change", async function () {
+            await browser.storage.sync.set({
+                "enBuildinWhitelist": document.getElementById("checkbox-enBuildinWhitelist").checked 
+            });
+        });
+    } ) () ;
+    // show build in whitelist
     (async () => {
         document.getElementById("textarea_buildinWhitelist").value = JSON.stringify( whitelist , null, 2);
     } ) () ; 

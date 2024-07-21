@@ -1,4 +1,4 @@
-var whitelist = [
+const buildin_whitelist = [
     "gitlab.com", 
     
     [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
@@ -7,12 +7,33 @@ var whitelist = [
     
     ["bing.com", "login.live.com", "login.microsoftonline.com"], 
     
-    ["szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" ], 
-    
     ["cnki.net", "edu.cn", "szlib.org.cn", "zjlib.cn", "library.hb.cn",  "gxlib.org.cn"], 
     
     ["ixigua.com", "douyin.com", "toutiao.com"], 
+    
+    [
+        "jlc.com", "szlcsc.com", "lceda.cn", "jlcsmt.com",  "oshwhub.com" , "jlc-3dp.cn", "sanweihou.com",  "jlc-smt.com", "jlc-gw.com", "jlc-fpc.com",  "jlc-bbs.com", "forface3d.com", "jlcfa.com", "jlc-cnc.com", "jlcsj.com", "jlccam.com",  "jlcgroup.cn" , 
+        
+        "jlcpcb.com", "easyeda.com",  "jlc3dp.com", "jlcmc.com", "oshwlab.com", 
+    ], 
 ];
+
+
+let whitelist = [];
+async function whitelist_init() {
+    async function get_settings_sync()
+    {
+        return ( await browser.storage.sync.get() ) ;
+    }
+
+    if ( ( await get_settings_sync() ) ['enBuildinWhitelist'] !== false)
+    { 
+        whitelist = whitelist.concat(buildin_whitelist);
+    }
+}
+whitelist_init();
+
+
 
 function is_whitelisted_single(host)
 {

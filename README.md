@@ -50,7 +50,8 @@ there's showy toolbar button badge indicating fallback disabling status.
 
 ### Allowlist
 
-Currently it has hard-coded allowlist.
+We currently have built-in allowlist (hard-coded. user-define allowlist not yet implemented), for the purpose of not breaking some websites. Some companies have many different websites with different domains. Some of their functionality are based on redirecting between their websites. Some of them check referer. User can choose to disable built-in allowlist.
+
 
 ## How to build
 

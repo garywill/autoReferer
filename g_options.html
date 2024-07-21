@@ -48,58 +48,67 @@
         
         <hr>
         
-        <details>
-        <summary>Allowlist</summary>
             
-            <div style="display:none;">
-                In addition to hard-coded allowlist, user can add allowed domains 
-                <br>
-                (Experimental feature! The mechanism may be changed in the future)
-                <br><br>
-                User Allowlist: 
-                <br>
-                
-                <textarea id="textarea_userWhitelist"></textarea>
-                <br>
-                <button id="btn_save_userWhitelist">Save</button>
-                <br>
-                <div>
-                    Write in JSON. 
-                    <br>
-                    Example:
-                    <br>
-                    <code>
-                        <pre>
-    [
-        ".baidu.com", 
-        [ ".google.com", ".youtube.com"], 
-        "twitter.com", 
-    ]
-                        </pre>
-                    </code>
-                    <br>
-                    Above example means no handling referer when:
-                    <code>
-                        <ul style="list-style-type: none;">
-                            <li>*.baidu.com ↔ *.baidu.com</li>
-                            <li>*.google.com ↔ *.google.com </li>
-                            <li>*.google.com ↔ *.youtube.com </li>
-                            <li>*.youtube.com ↔ *.youtube.com</li>
-                            <li>twitter.com ↔ twitter.com</li>
-                        </ul>
-                    </code>
-                </div>
-            </div>
+        <div>
+            <input type="checkbox" id="checkbox-enBuildinWhitelist" >Enable built-in allowlist <span style="text-decoration: underline;">(need restart/reenable)</span></input>
+            <br>
+            <ul style="list-style-type: none; margin: 0px;"><li>We currently have hard-coded allowlist (user-define allowlist not yet implemented), for the purpose of not breaking some websites. Some companies have many different websites with different domains. Some of their functionality are based on redirecting between their websites. Some of them check referer. </li></ul>
             
             <br>
             
-            <div>
-                Hard-coded allowlist:
-                <br>
+            <details>
+            <summary>Built-in allowlist :</summary>
                 <textarea id="textarea_buildinWhitelist" readonly="true"></textarea>
-            </div>
+            </details>
             
-        </details>
+        </div>
+
+        
+        <div style="display:none;">
+            In addition to hard-coded allowlist, user can add allowed domains 
+            <br>
+            (Experimental feature! The mechanism may be changed in the future)
+            <br><br>
+            User Allowlist: 
+            <br>
+            
+            <textarea id="textarea_userWhitelist"></textarea>
+            <br>
+            <button id="btn_save_userWhitelist">Save</button>
+            <br>
+            <div>
+                Write in JSON. 
+                <br>
+                Example:
+                <br>
+                <code>
+                    <pre>
+[
+    ".baidu.com", 
+    [ ".google.com", ".youtube.com"], 
+    "twitter.com", 
+]
+                    </pre>
+                </code>
+                <br>
+                Above example means no handling referer when:
+                <code>
+                    <ul style="list-style-type: none;">
+                        <li>*.baidu.com ↔ *.baidu.com</li>
+                        <li>*.google.com ↔ *.google.com </li>
+                        <li>*.google.com ↔ *.youtube.com </li>
+                        <li>*.youtube.com ↔ *.youtube.com</li>
+                        <li>twitter.com ↔ twitter.com</li>
+                    </ul>
+                </code>
+            </div>
+        </div>
+        
+        <br>
+        
+
+            
+        
         
 
     </body>
