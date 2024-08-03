@@ -1,7 +1,7 @@
 const buildin_whitelist = [
     "gitlab.com", 
     
-    [ "taobao.com", "alipay.com", "tmall.com",  "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
+    [ "taobao.com", "alipay.com", "tmall.com", "goofish.com", "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ], 
     
     ["apple.com", "cdn-apple.com", "itunes.com"], 
     
