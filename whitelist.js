@@ -16,6 +16,8 @@ const buildin_whitelist = [
         
         "jlcpcb.com", "easyeda.com",  "jlc3dp.com", "jlcmc.com", "oshwlab.com", 
     ], 
+
+    "steamdb.info",
 ];
 
 
