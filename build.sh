@@ -32,5 +32,5 @@ gpp_those_files "CHROME"
 cp manifest.json          dist/FIREFOX/manifest.json
 cp manifest-chrome.json   dist/CHROME/manifest.json
 
-
+rm dist/FIREFOX/browser-polyfill.min.js
 
