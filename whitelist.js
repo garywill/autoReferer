@@ -1,7 +1,7 @@
 const buildin_whitelist = [
-    "aur.archlinux.org",
-
     "gitlab.com",
+
+    "aur.archlinux.org",
 
     [ "taobao.com", "alipay.com", "tmall.com", "goofish.com", "alibabagroup.com", "aliexpress.com", "alibaba.com", "1688.com",  "alimama.com" ],
 
